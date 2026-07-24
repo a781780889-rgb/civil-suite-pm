@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  direction: rtl;
+}
+
+body {
+  @apply bg-paper text-ink font-sans antialiased;
+  font-feature-settings: 'tnum' 1;
+}
+
+/* أرقام وقيم هندسية بخط أحادي المسافة دوماً لضمان محاذاة الجداول */
+.font-mono,
+.tabular-figure {
+  font-variant-numeric: tabular-nums;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+.bg-blueprint-grid {
+  background-image: linear-gradient(#DBDDD8 1px, transparent 1px), linear-gradient(90deg, #DBDDD8 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #EDEEEB;
+}
+::-webkit-scrollbar-thumb {
+  background: #B6BCBC;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B9296;
+}
+
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  opacity: 1;
+}
+
+/* عنصر يُستخدم كقالب لالتقاط التقرير عبر html2canvas - يظل خارج الشاشة دون أن يُخفى (display:none يمنع html2canvas من قراءته) */
+.pdf-capture-root {
+  position: fixed;
+  top: 0;
+  left: -10000px;
+  width: 794px; /* عرض A4 تقريبي عند 96dpi */
+  background: #ffffff;
+  direction: rtl;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

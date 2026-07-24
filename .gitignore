@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+data/*.sqlite3
+data/*.sqlite3-journal
+data/*.sqlite3-wal
+data/*.sqlite3-shm
+.env
+.env.local
+npm-debug.log*
+.DS_Store
+*.pem
