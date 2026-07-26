@@ -37,11 +37,11 @@ describe('مصفوفة الصلاحيات — قواعد أساسية', () => {
     assert.equal(can('safety_officer', 'quality', 'edit'), false);
   });
 
-  test('كل الأدوار الأربعة عشر معرّفة في المصفوفة (لا دور بلا صلاحيات معرّفة)', () => {
+  test('كل الأدوار الخمسة عشر معرّفة في المصفوفة (لا دور بلا صلاحيات معرّفة)', () => {
     for (const r of ROLES) {
       assert.notEqual(can(r.key, 'project', 'view'), undefined);
     }
-    assert.equal(ROLES.length, 14);
+    assert.equal(ROLES.length, 15); // 14 أصلية + planning_engineer (مهندس التخطيط) أُضيف مع القسم الخامس
   });
 
   test('دور غير معروف لا يملك أي صلاحية (fail-safe افتراضي)', () => {
