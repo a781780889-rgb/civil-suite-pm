@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import {
   Home, Layers, Grid, Columns3, Rows3, Square, BrickWall, MoveUp, Database, Waves, Package, FileText, HardHat, X,
   LayoutDashboard, GitCommitVertical, Coins, ClipboardList, Upload, FileSpreadsheet, Sparkles, FolderKanban, Boxes, FileBarChart,
+  CalendarDays, CalendarRange,
 } from 'lucide-react';
 
 const GROUPS = [
@@ -58,6 +59,13 @@ const GROUPS = [
       { href: '/dashboard/pm/projects', sheet: 'S4-01', label: 'المشاريع', icon: FolderKanban },
       { href: '/dashboard/pm/resources', sheet: 'S4-02', label: 'مستودع الموارد', icon: Boxes },
       { href: '/dashboard/pm/reports', sheet: 'S4-03', label: 'مركز التقارير', icon: FileBarChart },
+    ],
+  },
+  {
+    title: 'القسم الخامس — الجدول الزمني',
+    items: [
+      { href: '/dashboard/schedule', sheet: 'S5-00', label: 'لوحة تحكم الجدول الزمني', icon: CalendarDays, exact: true },
+      { href: '/dashboard/schedule/schedules', sheet: 'S5-01', label: 'الجداول الزمنية', icon: CalendarRange },
     ],
   },
 ];
