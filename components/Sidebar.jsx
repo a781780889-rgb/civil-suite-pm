@@ -6,6 +6,7 @@ import {
   Home, Layers, Grid, Columns3, Rows3, Square, BrickWall, MoveUp, Database, Waves, Package, FileText, HardHat, X,
   LayoutDashboard, GitCommitVertical, Coins, ClipboardList, Upload, FileSpreadsheet, Sparkles, FolderKanban, Boxes, FileBarChart,
   CalendarDays, CalendarRange,
+  Users, Target, Receipt, FileSignature, Truck, ClipboardCheck, Mail, CalendarClock, AlertTriangle, PieChart,
 } from 'lucide-react';
 
 const GROUPS = [
@@ -68,10 +69,33 @@ const GROUPS = [
       { href: '/dashboard/schedule/schedules', sheet: 'S5-01', label: 'الجداول الزمنية', icon: CalendarRange },
     ],
   },
+  {
+    title: 'القسم السادس — إدارة الأعمال',
+    items: [
+      { href: '/dashboard/business', sheet: 'S6-00', label: 'لوحة تحكم الأعمال', icon: LayoutDashboard, exact: true },
+      { href: '/dashboard/business/clients', sheet: 'S6-01', label: 'العملاء', icon: Users },
+      { href: '/dashboard/business/opportunities', sheet: 'S6-02', label: 'الفرص التجارية', icon: Target },
+      { href: '/dashboard/business/quotes', sheet: 'S6-03', label: 'عروض الأسعار', icon: Receipt },
+      { href: '/dashboard/business/contracts', sheet: 'S6-04', label: 'العقود', icon: FileSignature },
+      { href: '/dashboard/business/partners?type=contractor', sheet: 'S6-05', label: 'المقاولون', icon: HardHat },
+      { href: '/dashboard/business/partners?type=supplier', sheet: 'S6-06', label: 'الموردون', icon: Truck },
+      { href: '/dashboard/business/work-orders', sheet: 'S6-07', label: 'أوامر العمل', icon: ClipboardCheck },
+      { href: '/dashboard/business/commitments', sheet: 'S6-08', label: 'الالتزامات', icon: AlertTriangle },
+      { href: '/dashboard/business/correspondence', sheet: 'S6-09', label: 'المراسلات', icon: Mail },
+      { href: '/dashboard/business/meetings', sheet: 'S6-10', label: 'الاجتماعات', icon: CalendarClock },
+      { href: '/dashboard/business/reports', sheet: 'S6-11', label: 'التقارير', icon: PieChart },
+      { href: '/dashboard/business/ai', sheet: 'S6-12', label: 'مساعد الذكاء الاصطناعي', icon: Sparkles },
+    ],
+  },
 ];
 
 export default function Sidebar({ mobileOpen, onClose }) {
   const pathname = usePathname();
+
+  function isActive(item) {
+    const base = item.href.split('?')[0];
+    return item.exact ? pathname === base : pathname?.startsWith(base);
+  }
 
   return (
     <>
@@ -102,7 +126,7 @@ export default function Sidebar({ mobileOpen, onClose }) {
               <div className="px-2 pb-1.5 text-[10px] font-bold text-navy-300 uppercase tracking-wide">{group.title}</div>
               <div className="space-y-0.5">
                 {group.items.map((item) => {
-                  const active = item.exact ? pathname === item.href : pathname?.startsWith(item.href);
+                  const active = isActive(item);
                   const Icon = item.icon;
                   return (
                     <Link
