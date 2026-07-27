@@ -1,7 +1,8 @@
 'use client';
 
+import { Suspense } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import {
   Home, Layers, Grid, Columns3, Rows3, Square, BrickWall, MoveUp, Database, Waves, Package, FileText, HardHat, X,
   LayoutDashboard, GitCommitVertical, Coins, ClipboardList, Upload, FileSpreadsheet, Sparkles, FolderKanban, Boxes, FileBarChart,
@@ -89,13 +90,65 @@ const GROUPS = [
   },
 ];
 
+function matchItem(item, pathname, searchParams) {
+  const [base, query] = item.href.split('?');
+  if (item.exact) return pathname === base;
+  if (!pathname?.startsWith(base)) return false;
+  if (query && searchParams) {
+    const itemParams = new URLSearchParams(query);
+    for (const [key, value] of itemParams.entries()) {
+      if (searchParams.get(key) !== value) return false;
+    }
+  }
+  return true;
+}
+
+function NavList({ pathname, searchParams, onClose }) {
+  return (
+    <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-4">
+      {GROUPS.map((group) => (
+        <div key={group.title}>
+          <div className="px-2 pb-1.5 text-[10px] font-bold text-navy-300 uppercase tracking-wide">{group.title}</div>
+          <div className="space-y-0.5">
+            {group.items.map((item) => {
+              const active = matchItem(item, pathname, searchParams);
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={onClose}
+                  className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors ${
+                    active ? 'bg-white text-navy-700 font-bold shadow-sm' : 'text-navy-100 hover:bg-white/10'
+                  }`}
+                >
+                  <span
+                    className={`font-mono text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                      active ? 'bg-navy-700 text-white' : 'bg-white/10 text-navy-200'
+                    }`}
+                    dir="ltr"
+                  >
+                    {item.sheet}
+                  </span>
+                  <Icon size={16} className={active ? 'text-navy-600' : 'text-navy-300'} />
+                  <span className="truncate">{item.label}</span>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </nav>
+  );
+}
+
+function NavListWithQuery({ pathname, onClose }) {
+  const searchParams = useSearchParams();
+  return <NavList pathname={pathname} searchParams={searchParams} onClose={onClose} />;
+}
+
 export default function Sidebar({ mobileOpen, onClose }) {
   const pathname = usePathname();
-
-  function isActive(item) {
-    const base = item.href.split('?')[0];
-    return item.exact ? pathname === base : pathname?.startsWith(base);
-  }
 
   return (
     <>
@@ -120,40 +173,9 @@ export default function Sidebar({ mobileOpen, onClose }) {
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto py-3 px-3 space-y-4">
-          {GROUPS.map((group) => (
-            <div key={group.title}>
-              <div className="px-2 pb-1.5 text-[10px] font-bold text-navy-300 uppercase tracking-wide">{group.title}</div>
-              <div className="space-y-0.5">
-                {group.items.map((item) => {
-                  const active = isActive(item);
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={onClose}
-                      className={`flex items-center gap-3 rounded-md px-3 py-2.5 text-sm transition-colors ${
-                        active ? 'bg-white text-navy-700 font-bold shadow-sm' : 'text-navy-100 hover:bg-white/10'
-                      }`}
-                    >
-                      <span
-                        className={`font-mono text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                          active ? 'bg-navy-700 text-white' : 'bg-white/10 text-navy-200'
-                        }`}
-                        dir="ltr"
-                      >
-                        {item.sheet}
-                      </span>
-                      <Icon size={16} className={active ? 'text-navy-600' : 'text-navy-300'} />
-                      <span className="truncate">{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </nav>
+        <Suspense fallback={<NavList pathname={pathname} searchParams={null} onClose={onClose} />}>
+          <NavListWithQuery pathname={pathname} onClose={onClose} />
+        </Suspense>
 
         <div className="px-5 py-4 border-t border-white/10 text-[11px] text-navy-300 leading-relaxed shrink-0">
           Civil Engineering Suite © {new Date().getFullYear()}
