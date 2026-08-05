@@ -8,6 +8,7 @@ import {
   LayoutDashboard, GitCommitVertical, Coins, ClipboardList, Upload, FileSpreadsheet, Sparkles, FolderKanban, Boxes, FileBarChart,
   CalendarDays, CalendarRange,
   Users, Target, Receipt, FileSignature, Truck, ClipboardCheck, Mail, CalendarClock, AlertTriangle, PieChart,
+  Wrench, UserCog, Warehouse, ShieldAlert,
 } from 'lucide-react';
 
 const GROUPS = [
@@ -86,6 +87,30 @@ const GROUPS = [
       { href: '/dashboard/business/meetings', sheet: 'S6-10', label: 'الاجتماعات', icon: CalendarClock },
       { href: '/dashboard/business/reports', sheet: 'S6-11', label: 'التقارير', icon: PieChart },
       { href: '/dashboard/business/ai', sheet: 'S6-12', label: 'مساعد الذكاء الاصطناعي', icon: Sparkles },
+    ],
+  },
+  {
+    title: 'القسم السابع — إدارة المعدات',
+    items: [
+      { href: '/dashboard/equipment', sheet: 'S7-00', label: 'لوحة تحكم المعدات', icon: LayoutDashboard, exact: true },
+      { href: '/dashboard/equipment/equipment', sheet: 'S7-01', label: 'سجل المعدات', icon: Boxes },
+      { href: '/dashboard/equipment/reservations', sheet: 'S7-02', label: 'الحجز والتخصيص', icon: CalendarClock },
+      { href: '/dashboard/equipment/maintenance', sheet: 'S7-03', label: 'الصيانة', icon: Wrench },
+      { href: '/dashboard/equipment/breakdowns', sheet: 'S7-04', label: 'الأعطال', icon: AlertTriangle },
+      { href: '/dashboard/equipment/operators', sheet: 'S7-05', label: 'المشغلون', icon: UserCog },
+      { href: '/dashboard/equipment/spare-parts', sheet: 'S7-06', label: 'قطع الغيار', icon: Warehouse },
+      { href: '/dashboard/equipment/rentals', sheet: 'S7-07', label: 'المعدات المؤجرة', icon: FileSignature },
+      { href: '/dashboard/equipment/reports', sheet: 'S7-08', label: 'التقارير', icon: FileBarChart },
+    ],
+  },
+  {
+    // نفس نمط القسم الرابع تماماً (S4-00 وحدها تقود لمساحة عمل المشروع بتبويباتها) وليس
+    // نمط القسم السابع (صفحة منفصلة لكل تبويب) - لأن بيانات HSE مرتبطة بمشروع بالضرورة، تماماً
+    // كإدارة المشاريع؛ كل تبويبات القسم الثامن (المخاطر/التصاريح/التفتيش/الحوادث/PPE/
+    // التدريب/المواد الخطرة/الإطفاء/الطوارئ/التقارير) داخل مساحة عمل مشروع واحدة قابلة للتبديل.
+    title: 'القسم الثامن — إدارة السلامة المهنية',
+    items: [
+      { href: '/dashboard/hse', sheet: 'S8-00', label: 'لوحة تحكم السلامة', icon: ShieldAlert, exact: true },
     ],
   },
 ];
